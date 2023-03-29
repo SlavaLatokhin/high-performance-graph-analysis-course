@@ -2,6 +2,7 @@ import inspect
 import pathlib
 import json
 
+
 def load_data(filename, data_name, parser) -> list:
     with pathlib.Path(inspect.stack()[1].filename) as f:
         parent = f.parent

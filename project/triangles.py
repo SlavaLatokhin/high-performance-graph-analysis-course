@@ -13,10 +13,12 @@ def count_of_triangles_for_each_vertex(graph: Matrix) -> List[int]:
     result.assign_scalar(0, mask=result, desc=gb.descriptor.C)
     return [num // 2 for num in result.vals]
 
+
 def count_triangles_cohen(graph: Matrix) -> int:
     assert is_graph_undirected(graph)
     result = graph.tril().mxm(graph.triu(), semiring=gb.INT64.PLUS_TIMES, mask=graph)
     return result.reduce_int() // 2
+
 
 def count_triangles_sandia(graph: Matrix) -> int:
     assert is_graph_undirected(graph)
