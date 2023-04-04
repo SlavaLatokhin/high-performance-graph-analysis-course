@@ -1,39 +1,41 @@
 import pytest
 import pygraphblas as gb
-from project.bfs import bfs
+from typing import List
+
+from project.bfs import bfs, msbfs
+from tests.utils import load_data
 
 
 @pytest.mark.parametrize(
-    "I, J, start_vertex, expected",
-    [
-        (
-            [0, 1, 1, 3, 2, 5],
-            [1, 2, 3, 2, 5, 4],
-            0,
-            [0, 1, 2, 2, 4, 3],
-        ),
-        (
-            [0, 1, 1, 3, 2, 5],
-            [1, 2, 3, 2, 5, 4],
-            3,
-            [-1, -1, 1, 0, 3, 2],
-        ),
-        (
-            [0, 1, 2, 3, 4, 5],
-            [1, 2, 3, 4, 5, 0],
-            3,
-            [3, 4, 5, 0, 1, 2],
-        ),
-        (
-            [],
-            [],
-            0,
-            [0, -1, -1, -1, -1, -1],
-        ),
-    ],
+    "I, J, vertex_count, start_vertex, expected",
+    load_data(
+        "data",
+        "test_bfs",
+        lambda p: (p["I"], p["J"], p["vertex_count"], p["start_vertex"], p["expected"]),
+    ),
 )
-def test_bfs(I, J, start_vertex, expected):
-    size = len(expected)
-    matrix = gb.Matrix.from_lists(I, J, nrows=size, ncols=size)
+def test_bfs(I, J, vertex_count: int, start_vertex: int, expected):
+    matrix = gb.Matrix.from_lists(I, J, nrows=vertex_count, ncols=vertex_count)
     actual = bfs(matrix, start_vertex)
     assert actual == expected
+
+
+@pytest.mark.parametrize(
+    "I, J, vertex_count, start_vertexes, expected",
+    load_data(
+        "data",
+        "test_msbfs",
+        lambda p: (
+            p["I"],
+            p["J"],
+            p["vertex_count"],
+            p["start_vertexes"],
+            p["expected"],
+        ),
+    ),
+)
+def test_msbfs(I, J, vertex_count: int, start_vertexes: List[int], expected):
+    matrix = gb.Matrix.from_lists(I, J, nrows=vertex_count, ncols=vertex_count)
+    expected_tuples = [(a, b) for [a, b] in expected]
+    actual = msbfs(matrix, start_vertexes)
+    assert actual == expected_tuples
