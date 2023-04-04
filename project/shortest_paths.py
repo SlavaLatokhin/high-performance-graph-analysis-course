@@ -6,12 +6,25 @@ from pygraphblas import Matrix
 
 
 def bellman_ford_for_vertex(graph: Matrix, start_vertex: int) -> List[int]:
+    """
+    A function of finding the shortest paths in a directed graph from a given vertex.
+
+    :param graph: adjacency boolean matrix of a graph.
+    :param start_vertex: vertex from which the search for shortest paths begins.
+    :return: a list where for each vertex the distance to it from the specified starting vertex is indicated.
+    """
     return bellman_ford_for_vertexes(graph, [start_vertex])[0][1]
 
 
-def bellman_ford_for_vertexes(
-    graph: Matrix, start_vertexes: List[int]
-) -> List[Tuple[int, List[int]]]:
+def bellman_ford_for_vertexes(graph: Matrix, start_vertexes: List[int]) -> List[Tuple[int, List[int]]]:
+    """
+    A function for finding the shortest paths in a directed graph of several given vertexes.
+
+    :param graph: adjacency boolean matrix of a graph.
+    :param start_vertexes: a list of vertexes from which the search for shortest paths begins.
+    :return: a list of pairs: a vertex, and an array, where for each
+    vertex the distance to it from the specified one is specified.
+    """
     ncols = graph.ncols
     for i in range(ncols):
         graph[i, i] = 0
@@ -30,6 +43,13 @@ def bellman_ford_for_vertexes(
 
 
 def floyd_warshall(graph: Matrix) -> List[Tuple[int, List[int]]]:
+    """
+    A function of finding the shortest paths in a directed graph for all pairs of vertexes.
+
+    :param graph: adjacency boolean matrix of a graph.
+    :return: a list of pairs: a vertex, and an array, where for each
+    vertex the distance to it from the specified one is specified.
+    """
     ncols = graph.ncols
     dist = Matrix.sparse(gb.FP64, nrows=ncols, ncols=ncols)
     dist += graph
@@ -50,9 +70,3 @@ def floyd_warshall(graph: Matrix) -> List[Tuple[int, List[int]]]:
         for i in range(ncols)
     ]
 
-
-def _copy_with_zeroes_on_main_diag(matrix: Matrix) -> Matrix:
-    copy = matrix.dup()
-    for i in range(matrix.ncols):
-        copy[i, i] = 0.0
-    return copy
