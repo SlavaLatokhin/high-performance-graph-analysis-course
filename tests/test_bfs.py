@@ -9,7 +9,7 @@ from tests.utils import load_data
 @pytest.mark.parametrize(
     "I, J, vertex_count, start_vertex, expected",
     load_data(
-        "data",
+        "bfs_data",
         "test_bfs",
         lambda p: (p["I"], p["J"], p["vertex_count"], p["start_vertex"], p["expected"]),
     ),
@@ -23,7 +23,7 @@ def test_bfs(I, J, vertex_count: int, start_vertex: int, expected):
 @pytest.mark.parametrize(
     "I, J, vertex_count, start_vertexes, expected",
     load_data(
-        "data",
+        "bfs_data",
         "test_msbfs",
         lambda p: (
             p["I"],
