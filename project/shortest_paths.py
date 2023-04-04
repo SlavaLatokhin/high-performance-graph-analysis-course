@@ -16,7 +16,9 @@ def bellman_ford_for_vertex(graph: Matrix, start_vertex: int) -> List[int]:
     return bellman_ford_for_vertexes(graph, [start_vertex])[0][1]
 
 
-def bellman_ford_for_vertexes(graph: Matrix, start_vertexes: List[int]) -> List[Tuple[int, List[int]]]:
+def bellman_ford_for_vertexes(
+    graph: Matrix, start_vertexes: List[int]
+) -> List[Tuple[int, List[int]]]:
     """
     A function for finding the shortest paths in a directed graph of several given vertexes.
 
@@ -69,4 +71,3 @@ def floyd_warshall(graph: Matrix) -> List[Tuple[int, List[int]]]:
         (i, [dist.get(i, j, default=inf) for j in range(graph.ncols)])
         for i in range(ncols)
     ]
-
